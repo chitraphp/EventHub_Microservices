@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebMvc.Services
+@using WebMvc.Models
+
+@inject IIdentityService<ApplicationUser> UserManager
+@if (User.FindFirst(x => x.Type == "preferred_username") != null)
+{
+    
+    <section class="col-lg-4 col-md-5 col-xs-12">
+        
+        <div class="esh-identity">
+            
+            <form asp-area="" asp-controller="Account" asp-action="SignOut" method="post" id="logoutForm" class="navbar-right">
+                <section class="esh-identity-section">
+                    <div class="dropdown">
+                        <div class="esh-identity-name esh-header-signin esh-identity-item">@User.FindFirst(x => x.Type == "preferred_username").Value</div>
+                        @*<div class="esh-identity-name">@User.Identity.Name</div>*@
+                        @* <img class="esh-identity-image" src="~/images/arrow-down.png">*@
+
+                                @await Html.PartialAsync("_LoggedInDropDown")
+
+                            </div>
+        </section>
+                    </form>
+                </div>
+            </section>
+
+            <section class="col-lg-1 col-xs-12">
+                @await Component.InvokeAsync("Wishlist", new { user = UserManager.Get(User) })
+            </section>
+
+                        }
+                        else
+                        {
+                        <section class="col-lg-4 col-md-5 col-xs-12">
+                            <div class="esh-identity">
+                                <section class="esh-identity-section">
+                                    <div class="dropdown">
+                                        <div class="esh-identity-item">
+
+                                            <a asp-area="" asp-controller="Account" asp-action="SignIn" class="esh-identity-name esh-header-signin esh-identity-item">
+                                                Login
+                                            </a>
+
+                                        </div>
+                                        @await Html.PartialAsync("_LoginDropDown")
+
+                                    </div>
+                                </section>
+                            </div>
+                        </section>
+
+                        <section class="col-lg-1 col-xs-12"></section>
+                        }
